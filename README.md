@@ -1,0 +1,1 @@
+# GL_Affordability_Kata
