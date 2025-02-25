@@ -14,6 +14,11 @@ public class AffordabilityService: IAffordabilityService
             throw new ValidationException("Supply at least two months bank statements.");
         }
 
+        if (properties.Count == 0)
+        {
+            throw new ValidationException("Supply at least one property to check.");
+        }
+
         return new List<Property>();
     }
 }
