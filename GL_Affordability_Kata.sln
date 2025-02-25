@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.35806.103
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffordabilityServiceCore", "src\AffordabilityServiceCore.csproj", "{D8C77166-99CF-40F1-9811-B3872E395F87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffordabilityServiceTests", "test\AffordabilityServiceTests.csproj", "{707653D4-C97F-4810-92D8-0A9503B07388}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8C77166-99CF-40F1-9811-B3872E395F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C77166-99CF-40F1-9811-B3872E395F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C77166-99CF-40F1-9811-B3872E395F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C77166-99CF-40F1-9811-B3872E395F87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{707653D4-C97F-4810-92D8-0A9503B07388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707653D4-C97F-4810-92D8-0A9503B07388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707653D4-C97F-4810-92D8-0A9503B07388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707653D4-C97F-4810-92D8-0A9503B07388}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41E77115-B585-43CC-BD8B-60EBB1F3AA88}
+	EndGlobalSection
+EndGlobal
