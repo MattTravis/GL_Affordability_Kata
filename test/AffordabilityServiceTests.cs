@@ -18,6 +18,20 @@ public class AffordabilityServiceTests
     [Test]
     public void Check_WhenTransactionsIsEmpty_ThrowsValidationException()
     {
-        Assert.Throws<ValidationException>(() =>_subject.Check(new List<TenantBankStatementTransaction>(), new List<Property>()));
+        var properties = new List<Property>
+        {
+            new(0, "Test", 0)
+        };
+        Assert.Throws<ValidationException>(() =>_subject.Check(new List<TenantBankStatementTransaction>(), properties));
+    }
+
+    [Test]
+    public void Check_WhenPropertiesIsEmpty_ThrowsValidationException()
+    {
+        var transactions = new List<TenantBankStatementTransaction>
+        {
+            new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyIn, 0)
+        };
+        Assert.Throws<ValidationException>(() => _subject.Check(transactions, new List<Property>()));
     }
 }
