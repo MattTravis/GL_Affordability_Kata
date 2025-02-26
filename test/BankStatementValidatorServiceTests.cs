@@ -23,7 +23,7 @@ public class BankStatementValidatorServiceTests
     [TestCase(1)]
     [TestCase(2)]
     [TestCase(3)]
-    public void Check_WhenInsufficientTransactions_ReturnsFalse(int numberOfTransactions)
+    public void Validate_WhenInsufficientTransactions_ReturnsFalse(int numberOfTransactions)
     {
         var transactions = new List<TenantBankStatementTransaction>();
 
@@ -31,6 +31,18 @@ public class BankStatementValidatorServiceTests
         {
             transactions.Add(new TenantBankStatementTransaction(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyIn, 0));
         }
+
+        Assert.That(_subject.Validate(transactions), Is.False);
+    }
+
+    [Test]
+    public void Validate_WhenIncongruentMonths_ReturnsFalse()
+    {
+        List<TenantBankStatementTransaction> transactions = 
+        [
+            new(DateTime.UtcNow.AddMonths(-2), "Test", "Test", 0, TransactionDirection.MoneyIn, 0),
+            new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyIn, 0)
+        ];
 
         Assert.That(_subject.Validate(transactions), Is.False);
     }
