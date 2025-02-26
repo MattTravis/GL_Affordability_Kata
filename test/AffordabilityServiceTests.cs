@@ -1,6 +1,8 @@
-﻿using AffordabilityServiceCore.Concretions;
+﻿using AffordabilityServiceCore.Abstractions;
+using AffordabilityServiceCore.Concretions;
 using AffordabilityServiceCore.Exceptions;
 using AffordabilityServiceCore.Models;
+using Moq;
 using NUnit.Framework;
 
 namespace AffordabilityServiceTests;
@@ -13,15 +15,22 @@ public class AffordabilityServiceTests
     private readonly List<TenantBankStatementTransaction> _singleTransaction =
         [new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyIn, 0)];
 
-[SetUp]
+    private readonly Mock<IBankStatementValidatorService> _bankStatementValidatorMock = new();
+
+    [SetUp]
     public void Setup()
     {
-        _subject = new AffordabilityService();
+        _bankStatementValidatorMock.Setup(s => s.Validate(It.IsAny<IReadOnlyCollection<TenantBankStatementTransaction>>()))
+            .Returns(true);
+
+        _subject = new AffordabilityService(_bankStatementValidatorMock.Object);
     }
 
     [Test]
-    public void Check_WhenTransactionsIsEmpty_ThrowsValidationException()
+    public void Check_WhenTransactionsValidationFails_ThrowsValidationException()
     {
+        _bankStatementValidatorMock.Setup(s => s.Validate(It.IsAny<IReadOnlyCollection<TenantBankStatementTransaction>>()))
+            .Returns(false);
         Assert.Throws<ValidationException>(() =>_subject.Check(new List<TenantBankStatementTransaction>(), _singleProperty));
     }
 

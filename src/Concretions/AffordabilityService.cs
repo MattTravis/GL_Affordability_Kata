@@ -4,12 +4,12 @@ using AffordabilityServiceCore.Models;
 
 namespace AffordabilityServiceCore.Concretions;
 
-public class AffordabilityService: IAffordabilityService
+public class AffordabilityService(IBankStatementValidatorService bankStatementValidatorService): IAffordabilityService
 {
     public IReadOnlyCollection<Property> Check(IReadOnlyCollection<TenantBankStatementTransaction> transactions, 
         IReadOnlyCollection<Property> properties)
     {
-        if (transactions.Count == 0)
+        if (!bankStatementValidatorService.Validate(transactions))
         {
             throw new ValidationException("Supply at least two months bank statements.");
         }
