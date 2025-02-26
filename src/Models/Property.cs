@@ -1,3 +1,19 @@
 ﻿namespace AffordabilityServiceCore.Models;
 
-public record Property(long Id, string Address, decimal MonthlyRent);
+public class Property
+{
+    public Property(long id, string address, decimal monthlyRent)
+    {
+        Id = id;
+        Address = address;
+        MonthlyRent = monthlyRent;
+    }
+
+    public Property()
+    {
+    }
+
+    public long Id { get; set; }
+    public string Address { get; set; }
+    public decimal MonthlyRent { get; set; }
+}
