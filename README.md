@@ -73,6 +73,13 @@ Based on the pseudocode example, we get an expected method Check that takes a co
 
 Further abstractions may fall out of the TDD methodology in time.
 
+### Example Program
+I chose to implement a Function App for Task 2 - these have been my bread and butter for the last three years, although I have somehow avoided file uploads.
+The CSVs have been processed using the CsvHelper library. I am not sure if the expectation was for me to hand craft a parser for this or not.
+Ultimately that felt like re-inventing the wheel - (most) libraries exist for a reason, after all.
+I have provided a Postman collection for sending a POST request to the Function App with files in the form. 
+The example files have also been added to the repo.
+
 ### Conclusion
 I freely admit I spent more time on this than suggested, as I enjoyed digging into the complexities of what at first glance may have been a trivial exercise.
 I still feel there is more to explore. I definitely abandoned the TDD approach when it came to the end and I was rushing to put together the Function App as an example program.
