@@ -16,6 +16,8 @@ public class BankStatement
         MonthlyDistinctTransactionTimestamps = GetMonthlyDistinctTransactionTimestamps();
 
         MonthlyIncome = GetMonthlyIncome();
+
+        MonthlyExpenses = GetMonthlyExpenses();
     }
 
     private IReadOnlyCollection<DateTime> GetMonthlyDistinctTransactionTimestamps()
@@ -39,5 +41,18 @@ public class BankStatement
             .Where(x => x.Count == MonthlyDistinctTransactionTimestamps.Count);
 
         return monthlyReoccurringIncome.Sum(x => x.Transaction.First().Delta);
+    }
+
+    private decimal GetMonthlyExpenses()
+    {
+        var monthlyExpense = Transactions
+            .Where(x => x.Direction == TransactionDirection.MoneyOut)
+            .GroupBy(x => new { x.TransactionType, x.Description })
+            .Select(x => new { Transaction = x, Count = x.Count() });
+
+        var monthlyReoccurringExpense = monthlyExpense
+            .Where(x => x.Count == MonthlyDistinctTransactionTimestamps.Count);
+
+        return monthlyReoccurringExpense.Sum(x => x.Transaction.First().Delta);
     }
 }
