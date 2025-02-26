@@ -37,16 +37,17 @@ public class BankStatementValidatorService : IBankStatementValidatorService
         var monthlyIncome = transactions
             .Where(x => x.Direction == TransactionDirection.MoneyIn)
             .GroupBy(x => new {x.TransactionType, x.Description})
-            .Select(x => new {Key = x.Key, Count = x.Count()});
+            .Select(x => new {Transaction = x, Count = x.Count()});
 
+        // Reoccurring income must occur on each month of the statement
         var monthlyReoccurringIncome = monthlyIncome
             .Where(x => x.Count == distinctOrderedMonthlyTransactionTimestamps.Count);
 
-        if (!monthlyReoccurringIncome.Any())
+        // Reoccurring income must greater than zero
+        if (monthlyReoccurringIncome.Sum(x => x.Transaction.First().Delta) <= 0)
         {
             return false;
         }
-
 
         return true;
     }
