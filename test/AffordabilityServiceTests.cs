@@ -39,4 +39,21 @@ public class AffordabilityServiceTests
     {
         Assert.Throws<ValidationException>(() => _subject.Check(_singleTransaction, new List<Property>()));
     }
+
+    [Test] public void Check_WhenAffordable_ReturnsAffordableProperties()
+    {
+        List<TenantBankStatementTransaction> transactions =
+        [
+            new(DateTime.UtcNow.AddMonths(-1), "Income", "Test", 1.26m, TransactionDirection.MoneyIn, 0),
+            new(DateTime.UtcNow, "Income", "Test", 1.26m, TransactionDirection.MoneyIn, 0),
+        ];
+        List<Property> properties = 
+        [
+            new (0, "Test", 1)
+        ];
+        
+        var response = _subject.Check(transactions, properties);
+
+        Assert.That(properties.All(x => response.Any(y => y.Id == x.Id)));
+    }
 }
