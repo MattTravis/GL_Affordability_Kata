@@ -12,8 +12,10 @@ public class BankStatementTests
     {
         IReadOnlyCollection<TenantBankStatementTransaction> transactions = 
         [
-            new (DateTime.UtcNow.AddMonths(-1), "Test", "Test", 1, TransactionDirection.MoneyIn, 0),
-            new (DateTime.UtcNow, "Test", "Test", 1, TransactionDirection.MoneyIn, 0)
+            new (DateTime.UtcNow.AddMonths(-1), "Income", "Test", 1, TransactionDirection.MoneyIn, 0),
+            new (DateTime.UtcNow.AddMonths(-1), "Expense", "Test", 1, TransactionDirection.MoneyOut, 0),
+            new (DateTime.UtcNow, "Income", "Test", 1, TransactionDirection.MoneyIn, 0),
+            new (DateTime.UtcNow, "Expense", "Test", 1, TransactionDirection.MoneyOut, 0),
         ];
 
         _subject = new BankStatement(transactions);
@@ -23,5 +25,11 @@ public class BankStatementTests
     public void BankStatement_WhenGivenValidTransactions_HasMonthlyIncome()
     {
         Assert.That(_subject.MonthlyIncome, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void BankStatement_WhenGivenValidTransactions_HasMonthlyExpenses()
+    {
+        Assert.That(_subject.MonthlyExpenses, Is.EqualTo(1));
     }
 }

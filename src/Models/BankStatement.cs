@@ -7,6 +7,7 @@ public class BankStatement
     public IReadOnlyCollection<DateTime> MonthlyDistinctTransactionTimestamps { get; init; }
 
     public decimal MonthlyIncome { get; init; }
+    public decimal MonthlyExpenses { get; init; }
 
     public BankStatement(IReadOnlyCollection<TenantBankStatementTransaction> transactions)
     {
