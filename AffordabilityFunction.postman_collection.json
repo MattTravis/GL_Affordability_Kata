@@ -1,0 +1,58 @@
+{
+	"info": {
+		"_postman_id": "d504c310-335e-4552-b9dd-f384008a104c",
+		"name": "AffordabilityFunction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21916233"
+	},
+	"item": [
+		{
+			"name": "Example AffordabilityFunction Request",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "bank_statement.csv",
+							"type": "file",
+							"src": "/C:/Users/Matthew.Travis/source/repos/Katas/GL_Affordability_Kata/files/bank_statement.csv"
+						},
+						{
+							"key": "properties.csv",
+							"type": "file",
+							"src": "/C:/Users/Matthew.Travis/source/repos/Katas/GL_Affordability_Kata/files/properties.csv"
+						},
+						{
+							"key": "BankStatementFilename",
+							"value": "bank_statement.csv",
+							"type": "text"
+						},
+						{
+							"key": "PropertiesFilename",
+							"value": "properties.csv",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:7292/api/AffordabilityFunction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7292",
+					"path": [
+						"api",
+						"AffordabilityFunction"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
