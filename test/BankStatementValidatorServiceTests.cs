@@ -46,4 +46,16 @@ public class BankStatementValidatorServiceTests
 
         Assert.That(_subject.Validate(transactions), Is.False);
     }
+
+    [Test]
+    public void Validate_WhenNoReoccurringIncome_NoMoneyIn_ReturnsFalse()
+    {
+        List<TenantBankStatementTransaction> transactions =
+        [
+            new(DateTime.UtcNow.AddMonths(-1), "Test", "Test", 0, TransactionDirection.MoneyOut, 0),
+            new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyOut, 0)
+        ];
+
+        Assert.That(_subject.Validate(transactions), Is.False);
+    }
 }
