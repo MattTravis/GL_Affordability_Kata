@@ -33,11 +33,6 @@ public class BankStatementValidatorService : IBankStatementValidatorService
         }
 
         // Must have at least one income source
-        if (transactions.All(x => x.Direction == TransactionDirection.MoneyOut))
-        {
-            return false;
-        }
-
         var atLeastOnIncomeAMonth = distinctOrderedMonthlyTransactionTimestamps
             .All(timestamp =>
                 transactions.Any(x => x.TransactionMonth == timestamp && x.Direction == TransactionDirection.MoneyIn));
