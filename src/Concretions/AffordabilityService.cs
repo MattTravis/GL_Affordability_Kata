@@ -26,6 +26,6 @@ public class AffordabilityService(IBankStatementValidatorService bankStatementVa
 
     private static IReadOnlyCollection<Property> GetAffordableProperties(decimal affordability, IReadOnlyCollection<Property> properties)
     {
-        return properties.Where(x => (x.MonthlyRent * 1.25m) < affordability).ToList();
+        return properties.Where(x => x.MonthlyRent * 1.25m < affordability).ToList();
     }
 }
