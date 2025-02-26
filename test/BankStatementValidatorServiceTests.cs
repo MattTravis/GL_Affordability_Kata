@@ -17,7 +17,7 @@ public class BankStatementValidatorServiceTests
     [Test]
     public void Validate_WhenTransactionsIsEmpty_ReturnsFalse()
     {
-        Assert.That(_subject.Validate([]), Is.False);
+        Assert.That(_subject.Validate(new BankStatement([])), Is.False);
     }
 
     [TestCase(1)]
@@ -32,7 +32,7 @@ public class BankStatementValidatorServiceTests
             transactions.Add(new TenantBankStatementTransaction(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyIn, 0));
         }
 
-        Assert.That(_subject.Validate(transactions), Is.False);
+        Assert.That(_subject.Validate(new BankStatement(transactions)), Is.False);
     }
 
     [Test]
@@ -44,7 +44,7 @@ public class BankStatementValidatorServiceTests
             new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyIn, 0)
         ];
 
-        Assert.That(_subject.Validate(transactions), Is.False);
+        Assert.That(_subject.Validate(new BankStatement(transactions)), Is.False);
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class BankStatementValidatorServiceTests
             new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyOut, 0)
         ];
 
-        Assert.That(_subject.Validate(transactions), Is.False);
+        Assert.That(_subject.Validate(new BankStatement(transactions)), Is.False);
     }
 
     [Test]
@@ -68,7 +68,7 @@ public class BankStatementValidatorServiceTests
             new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyOut, 0)
         ];
 
-        Assert.That(_subject.Validate(transactions), Is.False);
+        Assert.That(_subject.Validate(new BankStatement(transactions)), Is.False);
     }
 
     [Test]
@@ -80,7 +80,7 @@ public class BankStatementValidatorServiceTests
             new(DateTime.UtcNow, "Test2", "Test2", 1, TransactionDirection.MoneyIn, 0)
         ];
 
-        Assert.That(_subject.Validate(transactions), Is.False);
+        Assert.That(_subject.Validate(new BankStatement(transactions)), Is.False);
     }
 
     [Test]
@@ -92,7 +92,7 @@ public class BankStatementValidatorServiceTests
             new(DateTime.UtcNow, "Test", "Test", 0, TransactionDirection.MoneyIn, 0)
         ];
 
-        Assert.That(_subject.Validate(transactions), Is.False);
+        Assert.That(_subject.Validate(new BankStatement(transactions)), Is.False);
     }
 
     [Test]
@@ -104,6 +104,6 @@ public class BankStatementValidatorServiceTests
             new(DateTime.UtcNow, "Test", "Test", 1, TransactionDirection.MoneyIn, 0)
         ];
 
-        Assert.That(_subject.Validate(transactions), Is.True);
+        Assert.That(_subject.Validate(new BankStatement(transactions)), Is.True);
     }
 }

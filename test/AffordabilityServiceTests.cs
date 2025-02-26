@@ -20,7 +20,7 @@ public class AffordabilityServiceTests
     [SetUp]
     public void Setup()
     {
-        _bankStatementValidatorMock.Setup(s => s.Validate(It.IsAny<IReadOnlyCollection<TenantBankStatementTransaction>>()))
+        _bankStatementValidatorMock.Setup(s => s.Validate(It.IsAny<BankStatement>()))
             .Returns(true);
 
         _subject = new AffordabilityService(_bankStatementValidatorMock.Object);
@@ -29,7 +29,7 @@ public class AffordabilityServiceTests
     [Test]
     public void Check_WhenTransactionsValidationFails_ThrowsValidationException()
     {
-        _bankStatementValidatorMock.Setup(s => s.Validate(It.IsAny<IReadOnlyCollection<TenantBankStatementTransaction>>()))
+        _bankStatementValidatorMock.Setup(s => s.Validate(It.IsAny<BankStatement>()))
             .Returns(false);
         Assert.Throws<ValidationException>(() =>_subject.Check(new List<TenantBankStatementTransaction>(), _singleProperty));
     }

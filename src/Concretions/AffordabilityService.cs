@@ -9,7 +9,9 @@ public class AffordabilityService(IBankStatementValidatorService bankStatementVa
     public IReadOnlyCollection<Property> Check(IReadOnlyCollection<TenantBankStatementTransaction> transactions, 
         IReadOnlyCollection<Property> properties)
     {
-        if (!bankStatementValidatorService.Validate(transactions))
+        var statement = new BankStatement(transactions);
+
+        if (!bankStatementValidatorService.Validate(statement))
         {
             throw new ValidationException("Supply at least two months bank statements.");
         }

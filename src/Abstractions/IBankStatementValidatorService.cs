@@ -4,5 +4,5 @@ namespace AffordabilityServiceCore.Abstractions;
 
 public interface IBankStatementValidatorService
 {
-    bool Validate(IReadOnlyCollection<TenantBankStatementTransaction> transactions);
+    bool Validate(BankStatement statement);
 }

@@ -5,13 +5,9 @@ namespace AffordabilityServiceCore.Concretions;
 
 public class BankStatementValidatorService : IBankStatementValidatorService
 {
-    public bool Validate(IReadOnlyCollection<TenantBankStatementTransaction> transactions)
+    public bool Validate(BankStatement statement)
     {
-        var distinctOrderedMonthlyTransactionTimestamps = transactions
-            .Select(x => x.TransactionMonth)
-            .Distinct()
-            .OrderBy(x => x)
-            .ToList();
+        var distinctOrderedMonthlyTransactionTimestamps = statement.MonthlyDistinctTransactionTimestamps;
 
         // Bank statements must cover at least two months, minimum valid transaction count is 2.
         if (distinctOrderedMonthlyTransactionTimestamps.Count < 2)
@@ -32,19 +28,8 @@ public class BankStatementValidatorService : IBankStatementValidatorService
             return false;
         }
 
-        // Must have at least one income source
-        // Monthly reoccurring income share Type and Description
-        var monthlyIncome = transactions
-            .Where(x => x.Direction == TransactionDirection.MoneyIn)
-            .GroupBy(x => new {x.TransactionType, x.Description})
-            .Select(x => new {Transaction = x, Count = x.Count()});
-
-        // Reoccurring income must occur on each month of the statement
-        var monthlyReoccurringIncome = monthlyIncome
-            .Where(x => x.Count == distinctOrderedMonthlyTransactionTimestamps.Count);
-
         // Reoccurring income must greater than zero
-        if (monthlyReoccurringIncome.Sum(x => x.Transaction.First().Delta) <= 0)
+        if (statement.MonthlyIncome <= 0)
         {
             return false;
         }
