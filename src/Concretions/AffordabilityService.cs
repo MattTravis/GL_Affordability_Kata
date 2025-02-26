@@ -21,6 +21,11 @@ public class AffordabilityService(IBankStatementValidatorService bankStatementVa
             throw new ValidationException("Supply at least one property to check.");
         }
 
-        return new List<Property>();
+        return GetAffordableProperties(statement.Affordability, properties);
+    }
+
+    private static IReadOnlyCollection<Property> GetAffordableProperties(decimal affordability, IReadOnlyCollection<Property> properties)
+    {
+        return properties.Where(x => (x.MonthlyRent * 1.25m) < affordability).ToList();
     }
 }
