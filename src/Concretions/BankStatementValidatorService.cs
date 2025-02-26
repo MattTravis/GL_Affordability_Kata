@@ -33,15 +33,6 @@ public class BankStatementValidatorService : IBankStatementValidatorService
         }
 
         // Must have at least one income source
-        var atLeastOneIncomeAMonth = distinctOrderedMonthlyTransactionTimestamps
-            .All(timestamp =>
-                transactions.Any(x => x.TransactionMonth == timestamp && x.Direction == TransactionDirection.MoneyIn));
-
-        if (!atLeastOneIncomeAMonth)
-        {
-            return false;
-        }
-
         // Monthly reoccurring income share Type and Description
         var monthlyIncome = transactions
             .Where(x => x.Direction == TransactionDirection.MoneyIn)
