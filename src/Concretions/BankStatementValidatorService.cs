@@ -32,8 +32,11 @@ public class BankStatementValidatorService : IBankStatementValidatorService
             return false;
         }
 
-        // Must have at least one reoccurring income source
-        
+        // Must have at least one income source
+        if (transactions.All(x => x.Direction == TransactionDirection.MoneyOut))
+        {
+            return false;
+        }
 
         return true;
     }
