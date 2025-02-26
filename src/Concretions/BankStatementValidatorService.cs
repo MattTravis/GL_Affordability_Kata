@@ -38,6 +38,15 @@ public class BankStatementValidatorService : IBankStatementValidatorService
             return false;
         }
 
+        var atLeastOnIncomeAMonth = distinctOrderedMonthlyTransactionTimestamps
+            .All(timestamp =>
+                transactions.Any(x => x.TransactionMonth == timestamp && x.Direction == TransactionDirection.MoneyIn));
+
+        if (!atLeastOnIncomeAMonth)
+        {
+            return false;
+        }
+
         return true;
     }
 }
