@@ -8,7 +8,7 @@ public class BankStatementValidatorService : IBankStatementValidatorService
     public bool Validate(IReadOnlyCollection<TenantBankStatementTransaction> transactions)
     {
         var distinctOrderedMonthlyTransactionTimestamps = transactions
-            .Select(x => new DateTime(x.Timestamp.Year, x.Timestamp.Month, 1))
+            .Select(x => x.TransactionMonth)
             .Distinct()
             .OrderBy(x => x)
             .ToList();
@@ -33,6 +33,7 @@ public class BankStatementValidatorService : IBankStatementValidatorService
         }
 
         // Must have at least one reoccurring income source
+        
 
         return true;
     }
