@@ -20,7 +20,17 @@ public class BankStatementValidatorService : IBankStatementValidatorService
         }
 
         // Bank statements must cover contiguous months
-        
+        var previousTimestamp = distinctOrderedMonthlyTransactionTimestamps.Min(x => x.AddMonths(-1));
+        foreach (var timestamp in distinctOrderedMonthlyTransactionTimestamps)
+        {
+            if (previousTimestamp.AddMonths(1) == timestamp)
+            {
+                previousTimestamp = timestamp;
+                continue;
+            }
+
+            return false;
+        }
 
         // Must have at least one reoccurring income source
 
