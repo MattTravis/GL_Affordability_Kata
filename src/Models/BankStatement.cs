@@ -8,6 +8,7 @@ public class BankStatement
 
     public decimal MonthlyIncome { get; init; }
     public decimal MonthlyExpenses { get; init; }
+    public decimal Affordability { get; init; }
 
     public BankStatement(IReadOnlyCollection<TenantBankStatementTransaction> transactions)
     {
@@ -15,9 +16,11 @@ public class BankStatement
 
         MonthlyDistinctTransactionTimestamps = GetMonthlyDistinctTransactionTimestamps();
 
-        MonthlyIncome = GetMonthlyIncome();
+        MonthlyIncome = SumMonthlyTransactions(TransactionDirection.MoneyIn);
 
-        MonthlyExpenses = GetMonthlyExpenses();
+        MonthlyExpenses = SumMonthlyTransactions(TransactionDirection.MoneyOut);
+
+        Affordability = MonthlyIncome - MonthlyExpenses;
     }
 
     private IReadOnlyCollection<DateTime> GetMonthlyDistinctTransactionTimestamps()
@@ -29,30 +32,16 @@ public class BankStatement
             .ToList();
     }
 
-    private decimal GetMonthlyIncome()
+    private decimal SumMonthlyTransactions(TransactionDirection direction)
     {
-        var monthlyIncome = Transactions
-            .Where(x => x.Direction == TransactionDirection.MoneyIn)
+        var monthlyTransactions = Transactions
+            .Where(x => x.Direction == direction)
             .GroupBy(x => new { x.TransactionType, x.Description })
             .Select(x => new { Transaction = x, Count = x.Count() });
 
-        // Reoccurring income must occur on each month of the statement
-        var monthlyReoccurringIncome = monthlyIncome
+        var monthlyReoccurringTransactions = monthlyTransactions
             .Where(x => x.Count == MonthlyDistinctTransactionTimestamps.Count);
 
-        return monthlyReoccurringIncome.Sum(x => x.Transaction.First().Delta);
-    }
-
-    private decimal GetMonthlyExpenses()
-    {
-        var monthlyExpense = Transactions
-            .Where(x => x.Direction == TransactionDirection.MoneyOut)
-            .GroupBy(x => new { x.TransactionType, x.Description })
-            .Select(x => new { Transaction = x, Count = x.Count() });
-
-        var monthlyReoccurringExpense = monthlyExpense
-            .Where(x => x.Count == MonthlyDistinctTransactionTimestamps.Count);
-
-        return monthlyReoccurringExpense.Sum(x => x.Transaction.First().Delta);
+        return monthlyReoccurringTransactions.Sum(x => x.Transaction.First().Delta);
     }
 }

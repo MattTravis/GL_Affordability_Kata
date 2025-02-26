@@ -32,4 +32,10 @@ public class BankStatementTests
     {
         Assert.That(_subject.MonthlyExpenses, Is.EqualTo(1));
     }
+
+    [Test]
+    public void BankStatement_WhenGivenValidTransactions_HasAffordability()
+    {
+        Assert.That(_subject.Affordability, Is.EqualTo(0));
+    }
 }
